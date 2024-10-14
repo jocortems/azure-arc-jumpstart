@@ -40,7 +40,7 @@ param flavor string = 'ITPro'
 param sqlServerEdition string = 'Developer'
 
 @description('Target GitHub account')
-param githubAccount string = 'microsoft'
+param githubAccount string = 'jocortems'
 
 @description('Target GitHub branch')
 param githubBranch string = 'main'
@@ -57,7 +57,7 @@ param deployBastion bool = false
 param bastionSku string = 'Basic'
 
 @description('User github account where they have forked https://github.com/microsoft/azure-arc-jumpstart-apps')
-param githubUser string = 'microsoft'
+param githubUser string = 'jocortems'
 
 @description('Active directory domain services domain name')
 param addsDomainName string = 'jumpstart.local'
@@ -92,7 +92,7 @@ param autoShutdownTimezone string = 'UTC' // Timezone for the auto-shutdown
 param autoShutdownEmailRecipient string = ''
 
 
-var templateBaseUrl = 'https://raw.githubusercontent.com/${githubAccount}/azure_arc/${githubBranch}/azure_jumpstart_arcbox/'
+var templateBaseUrl = 'https://raw.githubusercontent.com/${githubAccount}/azure-arc-jumpstart/${githubBranch}/azure_jumpstart_arcbox/'
 var aksArcDataClusterName = '${namingPrefix}-AKS-Data-${guid}'
 var aksDrArcDataClusterName = '${namingPrefix}-AKS-DR-Data-${guid}'
 var k3sArcDataClusterName = '${namingPrefix}-K3s-Data-${guid}'

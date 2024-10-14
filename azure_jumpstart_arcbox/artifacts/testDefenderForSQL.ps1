@@ -29,3 +29,15 @@ Start-Sleep(30) # Wait between tests
 # Run shell obfuscation test
 Write-Host "Executing SQL shell obfuscation"
 Test-SqlATpShellObfuscation -UserName sa -Password $saPasswordEncrypted # Medium risk
+
+# Run Exteranl Source anomaly test
+Write-Host "Executing External Source Anomaly"
+Test-SqlAtpShellExternalSourceAnomaly -UserName sa -Password $saPasswordEncrypted # Medium risk
+
+# Run Suspicious App Login
+Write-Host "Executing Suspicious App Login"
+Test-SqlAtpLoginSuspiciousApp -UserName sa -Password $saPasswordEncrypted # Medium risk
+
+# Run Data Exfiltration
+Write-Host "Executing Data Exfiltration"
+Test-DataExfiltration -UserName sa -Password $saPasswordEncrypted # Medium risk

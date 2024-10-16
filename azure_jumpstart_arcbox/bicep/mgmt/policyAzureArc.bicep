@@ -277,10 +277,11 @@ resource arcVmsDcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = if (fla
         {
           name: 'WindowsEvents'
           streams: [
-            'Microsoft-WindowsEvent'
+            'Microsoft-Event'
           ]
           xPathQueries: [
-            '*' // Collect all events
+            'System!*[System[(Level=1  or Level=2 or Level=3)]]'
+            'Security!*'
           ]
         }
       ]
@@ -307,7 +308,7 @@ resource arcVmsDcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = if (fla
     dataFlows: [
       {
         streams: [
-          'Microsoft-WindowsEvent'
+          'Microsoft-Event'
           'Microsoft-Syslog'
         ]
         destinations: [

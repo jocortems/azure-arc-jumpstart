@@ -18,6 +18,8 @@ param sshPostureControlAzurePolicyId string = '/providers/Microsoft.Authorizatio
 
 param tagsRoleDefinitionId string = '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c'
 
+param arcboxClientVm string = resourceId(resourceGroup().id, 'Microsoft.Compute/virtualMachines', 'ArcBox-Client')
+
 var policies = [
   {
     name: '(ArcBox) Enable Azure Monitor for Hybrid VMs with AMA'
@@ -30,6 +32,9 @@ var policies = [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293'
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302'
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa'
+    ]
+    notScopes: [
+      arcboxClientVm
     ]
     parameters: {
       dcrResourceId: {
@@ -52,6 +57,9 @@ var policies = [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302' // Connected Machine Admin
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa' // Monitoring Contributor
     ]
+    notScopes: [
+      arcboxClientVm
+    ]
     parameters: {}
   }
   {
@@ -62,6 +70,7 @@ var policies = [
       'DevOps'
     ]
     roleDefinition: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293'
+    notScopes: []
     parameters: {}
   }
 ]
@@ -74,6 +83,7 @@ resource policies_name 'Microsoft.Authorization/policyAssignments@2021-06-01' = 
   }
   properties: {
     policyDefinitionId: any(item.definitionId)
+    notScopes: item.notScopes
     parameters: item.parameters
   }
 }]

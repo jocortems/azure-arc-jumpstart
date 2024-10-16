@@ -21,7 +21,7 @@ param tagsRoleDefinitionId string = '/subscriptions/${subscription().subscriptio
 var policies = [
   {
     name: '(ArcBox) Enable Azure Monitor for Hybrid VMs with AMA'
-    definitionId: '/providers/Microsoft.Authorization/policySetDefinitions/59e9c3eb-d8df-473b-8059-23fd38ddd0f0'
+    definitionId: '/providers/Microsoft.Authorization/policySetDefinitions/2b00397d-c309-49c4-aa5a-f0b2c5bc6321'
     flavors: [
       'Full'
       'ITPro'
@@ -32,13 +32,27 @@ var policies = [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa'
     ]
     parameters: {
-      logAnalyticsWorkspace: {
-        value: logAnalyticsWorkspaceId
+      dcrResourceId: {
+        value: arcVmsDcr.id
       }
       enableProcessesAndDependencies: {
         value: true
       }
     }
+  }
+  {
+    name: '(ArcBox) Deploy Microsoft Defender for Endpoint Agent'
+    definitionId: '/providers/Microsoft.Authorization/policySetDefinitions/e20d08c5-6d64-656d-6465-ce9e37fd0ebc'
+    flavors: [
+      'Full'
+      'ITPro'
+    ]
+    roleDefinition: [
+      '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293' // Log Analytics Contributor
+      '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302' // Connected Machine Admin
+      '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa' // Monitoring Contributor
+    ]
+    parameters: {}
   }
   {
     name: '(ArcBox) Enable Microsoft Defender on Kubernetes clusters'
@@ -64,7 +78,7 @@ resource policies_name 'Microsoft.Authorization/policyAssignments@2021-06-01' = 
   }
 }]
 
-resource policy_AMA_role_0 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[0].flavors, flavor)) {
+resource policy_AMA_log_analytics_contributor 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[0].flavors, flavor)) {
   name: guid( policies[0].name, policies[0].roleDefinition[0],resourceGroup().id)
   properties: {
     roleDefinitionId: any(policies[0].roleDefinition[0])
@@ -73,7 +87,7 @@ resource policy_AMA_role_0 'Microsoft.Authorization/roleAssignments@2020-10-01-p
   }
 }
 
-resource policy_AMA_role_1 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[0].flavors, flavor)) {
+resource policy_AMA_connected_machine_admin 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[0].flavors, flavor)) {
   name: guid( policies[0].name, policies[0].roleDefinition[1],resourceGroup().id)
   properties: {
     roleDefinitionId: any(policies[0].roleDefinition[1])
@@ -82,7 +96,7 @@ resource policy_AMA_role_1 'Microsoft.Authorization/roleAssignments@2020-10-01-p
   }
 }
 
-resource policy_AMA_role_2 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[0].flavors, flavor)) {
+resource policy_AMA_monitoring_contributor 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[0].flavors, flavor)) {
   name: guid( policies[0].name, policies[0].roleDefinition[2],resourceGroup().id)
   properties: {
     roleDefinitionId: any(policies[0].roleDefinition[2])
@@ -91,11 +105,39 @@ resource policy_AMA_role_2 'Microsoft.Authorization/roleAssignments@2020-10-01-p
   }
 }
 
-resource policy_defender_kubernetes 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[1].flavors, flavor)) {
-  name: guid( policies[1].name, policies[1].roleDefinition,resourceGroup().id)
+resource policy_defender_servers_log_analytics_contributor 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[1].flavors, flavor)) {
+  name: guid( policies[1].name, policies[1].roleDefinition[0],resourceGroup().id)
   properties: {
-    roleDefinitionId: any(policies[1].roleDefinition)
+    roleDefinitionId: any(policies[1].roleDefinition[0])
     principalId: contains(policies[1].flavors, flavor)?policies_name[1].identity.principalId:guid('policies_name_id${0}')
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource policy_defender_servers_connected_machine_admin 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[1].flavors, flavor)) {
+  name: guid( policies[1].name, policies[1].roleDefinition[1],resourceGroup().id)
+  properties: {
+    roleDefinitionId: any(policies[1].roleDefinition[1])
+    principalId: contains(policies[1].flavors, flavor)?policies_name[1].identity.principalId:guid('policies_name_id${0}')
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource policy_defender_servers_monitoring_contributor 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[1].flavors, flavor)) {
+  name: guid( policies[1].name, policies[1].roleDefinition[2],resourceGroup().id)
+  properties: {
+    roleDefinitionId: any(policies[1].roleDefinition[2])
+    principalId: contains(policies[1].flavors, flavor)?policies_name[1].identity.principalId:guid('policies_name_id${0}')
+    principalType: 'ServicePrincipal'
+  }
+}
+
+
+resource policy_defender_kubernetes 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[2].flavors, flavor)) {
+  name: guid( policies[2].name, policies[2].roleDefinition,resourceGroup().id)
+  properties: {
+    roleDefinitionId: any(policies[2].roleDefinition)
+    principalId: contains(policies[2].flavors, flavor)?policies_name[2].identity.principalId:guid('policies_name_id${0}')
     principalType: 'ServicePrincipal'
   }
 }
@@ -218,5 +260,95 @@ resource sshPostureControlAudit  'Microsoft.Authorization/policyAssignments@2024
         value: 'true'
       }
     }
+  }
+}
+
+
+resource arcVmsDcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = if (flavor == 'ITPro' || flavor == 'Full') {
+  name: 'arcVmsDcr'
+  location: azureLocation
+  tags: resourceTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    dataSources: {
+      windowsEventLogs: [
+        {
+          name: 'WindowsEvents'
+          streams: [
+            'Microsoft-WindowsEvent'
+          ]
+          xPathQueries: [
+            '*' // Collect all events
+          ]
+        }
+      ]
+      syslog: [
+        {
+          name: 'Syslog'
+          streams: [
+            'Microsoft-Syslog'
+          ]
+          facilityNames: [
+            'auth'
+            'authpriv'
+            'audit'
+            'syslog'
+            'user'
+          ]
+          logLevels: [
+            'Info'
+            'Error'            
+          ]
+        }
+      ]
+    }
+    dataFlows: [
+      {
+        streams: [
+          'Microsoft-WindowsEvent'
+          'Microsoft-Syslog'
+        ]
+        destinations: [
+          'LogAnalytics'
+        ]
+      }
+    ]
+    destinations: {
+      logAnalytics: [
+        {
+          name: 'LogAnalytics'
+          workspaceResourceId: logAnalyticsWorkspaceId
+        }
+      ]
+    }
+  }
+}
+
+resource dcr_log_analytics_contributor 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (flavor == 'ITPro' || flavor == 'Full') {
+  name: guid( arcVmsDcr.name, '92aaf0da-9dab-42b6-94a3-d43ce8d16293', resourceGroup().id)
+  properties: {
+    roleDefinitionId: resourceId(subscription().subscriptionId, 'Microsoft.Authorization/roleDefinitions', '92aaf0da-9dab-42b6-94a3-d43ce8d16293')
+    principalId: arcVmsDcr.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource dcr_connected_machine_admin 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (flavor == 'ITPro' || flavor == 'Full') {
+  name: guid( arcVmsDcr.name, 'cd570a14-e51a-42ad-bac8-bafd67325302', resourceGroup().id)
+  properties: {
+    roleDefinitionId: resourceId(subscription().subscriptionId, 'Microsoft.Authorization/roleDefinitions', 'cd570a14-e51a-42ad-bac8-bafd67325302')
+    principalId: arcVmsDcr.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource dcr_monitoring_contributor 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (flavor == 'ITPro' || flavor == 'Full') {
+  name: guid( arcVmsDcr.name, '749f88d5-cbae-40b8-bcfc-e573ddc772fa', resourceGroup().id)
+  properties: {
+    roleDefinitionId: resourceId(subscription().subscriptionId, 'Microsoft.Authorization/roleDefinitions', '749f88d5-cbae-40b8-bcfc-e573ddc772fa')
+    principalId: arcVmsDcr.identity.principalId
+    principalType: 'ServicePrincipal'
   }
 }

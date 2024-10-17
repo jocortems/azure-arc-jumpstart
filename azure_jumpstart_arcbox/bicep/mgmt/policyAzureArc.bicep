@@ -12,13 +12,15 @@ param resourceTags object = {
   Solution: 'jumpstart_arcbox'
 }
 
+param arcboxClientVm string = resourceId('Microsoft.Compute/virtualMachines', 'ArcBox-Client')
+
 param azureUpdateManagerArcPolicyId string = '/providers/Microsoft.Authorization/policyDefinitions/bfea026e-043f-4ff4-9d1b-bf301ca7ff46'
 param azureUpdateManagerAzurePolicyId string = '/providers/Microsoft.Authorization/policyDefinitions/59efceea-0c96-497e-a4a1-4eb2290dac15'
 param sshPostureControlAzurePolicyId string = '/providers/Microsoft.Authorization/policyDefinitions/a8f3e6a6-dcd2-434c-b0f7-6f309ce913b4'
 
 param tagsRoleDefinitionId string = '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c'
 
-param arcboxClientVm string = resourceId(resourceGroup().id, 'Microsoft.Compute/virtualMachines', 'ArcBox-Client')
+
 
 var policies = [
   {
@@ -56,6 +58,7 @@ var policies = [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293' // Log Analytics Contributor
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302' // Connected Machine Admin
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa' // Monitoring Contributor
+      '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' // Reader Role
     ]
     notScopes: [
       arcboxClientVm
@@ -137,6 +140,15 @@ resource policy_defender_servers_monitoring_contributor 'Microsoft.Authorization
   name: guid( policies[1].name, policies[1].roleDefinition[2],resourceGroup().id)
   properties: {
     roleDefinitionId: any(policies[1].roleDefinition[2])
+    principalId: contains(policies[1].flavors, flavor)?policies_name[1].identity.principalId:guid('policies_name_id${0}')
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource policy_defender_servers_reader 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[1].flavors, flavor)) {
+  name: guid( policies[1].name, policies[1].roleDefinition[3],resourceGroup().id)
+  properties: {
+    roleDefinitionId: any(policies[1].roleDefinition[3])
     principalId: contains(policies[1].flavors, flavor)?policies_name[1].identity.principalId:guid('policies_name_id${0}')
     principalType: 'ServicePrincipal'
   }

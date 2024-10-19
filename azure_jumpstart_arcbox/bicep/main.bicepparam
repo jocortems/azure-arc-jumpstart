@@ -8,7 +8,7 @@ param windowsAdminUsername = 'arcdemo'
 
 param windowsAdminPassword = 'R@d10H3@dP#03b3!'
 
-param logAnalyticsWorkspaceName = 'jcortesarcboxlaw'
+param logAnalyticsWorkspaceName = 'jcortesarcboxlaw-5'
 
 param flavor = 'ITPro'
 

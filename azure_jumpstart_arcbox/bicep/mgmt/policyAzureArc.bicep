@@ -43,7 +43,7 @@ var policies = [
         value: arcVmsDcr.id
       }
       enableProcessesAndDependencies: {
-        value: true
+        value: false
       }
     }
   }
@@ -58,7 +58,7 @@ var policies = [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293' // Log Analytics Contributor
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302' // Connected Machine Admin
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa' // Monitoring Contributor
-      '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' // Reader Role
+      '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/39bc4728-0917-49c7-9d2c-d95423bc2eb4' // Security Reader
     ]
     notScopes: [
       arcboxClientVm
@@ -136,6 +136,7 @@ resource policy_defender_servers_connected_machine_admin 'Microsoft.Authorizatio
   }
 }
 
+
 resource policy_defender_servers_monitoring_contributor 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[1].flavors, flavor)) {
   name: guid( policies[1].name, policies[1].roleDefinition[2],resourceGroup().id)
   properties: {
@@ -145,7 +146,7 @@ resource policy_defender_servers_monitoring_contributor 'Microsoft.Authorization
   }
 }
 
-resource policy_defender_servers_reader 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[1].flavors, flavor)) {
+resource policy_defender_servers_security_reader 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[1].flavors, flavor)) {
   name: guid( policies[1].name, policies[1].roleDefinition[3],resourceGroup().id)
   properties: {
     roleDefinitionId: any(policies[1].roleDefinition[3])
@@ -153,7 +154,6 @@ resource policy_defender_servers_reader 'Microsoft.Authorization/roleAssignments
     principalType: 'ServicePrincipal'
   }
 }
-
 
 resource policy_defender_kubernetes 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = if (contains(policies[2].flavors, flavor)) {
   name: guid( policies[2].name, policies[2].roleDefinition,resourceGroup().id)
@@ -295,6 +295,42 @@ resource arcVmsDcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = if (fla
   }
   properties: {
     dataSources: {
+      performanceCounters: [
+        {
+          name: 'WindowsPerformanceCounters'
+          samplingFrequencyInSeconds: 60
+          streams: [
+            'Microsoft-Perf'
+          ]
+          counterSpecifiers: [
+            '\\Processor(*)\\*'
+            '\\Memory\\*'
+            '\\LogicalDisk(*)\\*'
+            '\\PhysicalDisk(*)\\*'
+            '\\Network Interface(*)\\*'
+          ]
+        }
+        {
+          name: 'LinuxPerformanceCounters'
+          samplingFrequencyInSeconds: 60
+          streams: [
+            'Microsoft-Perf'
+          ]
+          counterSpecifiers: [
+            'Processor:% Processor Time'
+            'Processor:% User Time'
+            'Processor:% Privileged Time'
+            'Memory:% Available Memory'
+            'Memory:% Used Memory'
+            'Memory:Available MBytes Memory'
+            'Memory:Used Memory MBytes'
+            'LogicalDisk:% Used Space'
+            'LogicalDisk:% Free Space'
+            'LogicalDisk:Disk Writes/sec'
+            'LogicalDisk:Disk Reads/sec'
+          ]
+        }
+      ]
       windowsEventLogs: [
         {
           name: 'WindowsEvents'
@@ -332,6 +368,7 @@ resource arcVmsDcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = if (fla
         streams: [
           'Microsoft-Event'
           'Microsoft-Syslog'
+          'Microsoft-Perf'
         ]
         destinations: [
           'LogAnalytics'

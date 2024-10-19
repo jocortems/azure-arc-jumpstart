@@ -75,7 +75,7 @@ param customLocationRPOID string = newGuid()
 param debugEnabled bool = false
 
 @description('Tags to assign for all ArcBox resources')
-param resourceTags object = {
+param customTags object = {
   Solution: 'jumpstart_arcbox'
 }
 
@@ -91,7 +91,7 @@ param autoShutdownTime string = '1800' // The time for auto-shutdown in HHmm for
 param autoShutdownTimezone string = 'UTC' // Timezone for the auto-shutdown
 param autoShutdownEmailRecipient string = ''
 
-
+var resourceTags = union(customTags, {Location: location})
 var templateBaseUrl = 'https://raw.githubusercontent.com/${githubAccount}/azure-arc-jumpstart/${githubBranch}/azure_jumpstart_arcbox/'
 var aksArcDataClusterName = '${namingPrefix}-AKS-Data-${guid}'
 var aksDrArcDataClusterName = '${namingPrefix}-AKS-DR-Data-${guid}'

@@ -16,8 +16,12 @@ param deployBastion = false
 
 param vmAutologon = true
 
-param resourceTags = {
+param customTags = {
   SecurityControl: 'Ignore'
+  Application: 'ArcDemo'
+  'Data Center': 'Azure'
+  'Business Unit': 'Retail' 
+
 } // Add tags as needed
 
 param myIpAddress = '23.127.79.184'

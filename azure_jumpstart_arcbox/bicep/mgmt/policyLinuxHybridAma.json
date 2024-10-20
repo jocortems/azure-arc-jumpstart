@@ -1,0 +1,56 @@
+{
+    "displayName": "Enable Azure Monitor for Linux Hybrid VMs with AMA",
+    "policyType": "Custom",
+    "description": "Enable Azure Monitor for the hybrid Linux virtual machines with AMA.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Monitoring"
+    },
+    "version": "1.0.0",
+    "parameters": {      
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect for all constituent policies",
+          "description": "Enable or disable the execution of each of the constituent policies in the initiative."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "dcrResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "VMI Data Collection Rule Resource Id",
+          "description": "VMI Data Collection Rule Resource Id. Please refer to this link for newer experience migration: https://aka.ms/vminsights-dcrOnboarding",
+          "portalReview": "true"
+        }
+      }
+    },
+    "policyDefinitions": [      
+      {
+        "policyDefinitionReferenceId": "AzureMonitorAgent_Linux_HybridVM_Deploy",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/845857af-0333-4c5d-bbbc-6076697da122",
+        "definitionVersion": "2.*.*",
+        "effectiveDefinitionVersion": "2.4.0",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "DataCollectionRuleAssociation_Linux",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
+        "definitionVersion": "6.*.*",
+        "effectiveDefinitionVersion": "6.5.1",
+        "parameters": {
+          "dcrResourceId": {
+            "value": "[parameters('dcrResourceId')]"
+          }
+        }
+      }
+    ]
+  }

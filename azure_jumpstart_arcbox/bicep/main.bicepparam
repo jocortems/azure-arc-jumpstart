@@ -8,7 +8,7 @@ param windowsAdminUsername = 'arcdemo'
 
 param windowsAdminPassword = 'R@d10H3@dP#03b3!'
 
-param logAnalyticsWorkspaceName = 'jcortesarcboxlaw-5'
+param logAnalyticsWorkspaceName = 'jcortesarcboxlaw6'
 
 param flavor = 'ITPro'
 
@@ -25,3 +25,5 @@ param customTags = {
 } // Add tags as needed
 
 param myIpAddress = '23.127.79.184'
+
+param sqlServerEdition = 'Standard'

@@ -545,6 +545,11 @@ resource bastionHost 'Microsoft.Network/bastionHosts@2023-11-01' = if (deployBas
   }
 }
 
+module hybridVmAmaPolicies './hybridAmaPolicies.bicep' = {
+  scope: subscription()
+  name: 'hybridVmAmaPolicies'
+}
+
 module policyDeployment './policyAzureArc.bicep' = {
   name: 'policyDeployment'
   params: {
@@ -552,6 +557,8 @@ module policyDeployment './policyAzureArc.bicep' = {
     logAnalyticsWorkspaceId: workspace.id
     flavor: flavor
     resourceTags: resourceTags
+    amaWindowsHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaWindowsHybridVmsPolicyDefinitionId
+    amaLinuxHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaLinuxHybridVmsPolicyDefinitionId
   }
 }
 
@@ -566,6 +573,10 @@ module keyVault 'br/public:avm/res/key-vault/vault:0.5.1' = {
     enableSoftDelete: false
     location: location
   }
+}
+
+module arcSqlDashboards './arcSqlDashboards.bicep' = {
+  name: 'arcSqlDashboards'
 }
 
 output vnetId string = arcVirtualNetwork.id

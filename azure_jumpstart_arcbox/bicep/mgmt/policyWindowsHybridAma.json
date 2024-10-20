@@ -1,7 +1,7 @@
 {
-    "displayName": "Enable Azure Monitor for Windows Hybrid VMs with AMA",
+    "displayName": "(ArcBox) Deploy AMA, CT and Inv and Defender for Windows-Arc VMs",
     "policyType": "Custom",
-    "description": "Enable Azure Monitor for the hybrid Windows virtual machines with AMA.",
+    "description": "Deploy and configure Azure Monitor Agent, Dependency Agent, Change Tracking and Inventory and Microsoft Defender for Endpoint on Windows Hybrid VMs.",
     "metadata": {
       "version": "1.0.0",
       "category": "Monitoring"
@@ -75,6 +75,28 @@
         "parameters": {
           "dcrResourceId": {
             "value": "[parameters('dcrResourceId')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "microsoftDefenderForEndpointWindowsArcAgentDeploy",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/37c043a6-6d64-656d-6465-b362dfeb354a",
+        "definitionVersion": "2.*.*-preview",
+        "effectiveDefinitionVersion": "2.0.1-preview",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "DeployChangeTrackingExtensionWindowsHybridVM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4bb303db-d051-4099-95d2-e3e1428a4cd5",
+        "definitionVersion": "2.*.*-preview",
+        "effectiveDefinitionVersion": "2.0.0-preview",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
           }
         }
       }

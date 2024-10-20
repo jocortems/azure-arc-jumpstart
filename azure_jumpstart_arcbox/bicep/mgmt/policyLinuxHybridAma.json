@@ -1,7 +1,7 @@
 {
-    "displayName": "Enable Azure Monitor for Linux Hybrid VMs with AMA",
+    "displayName": "(ArcBox) Deploy AMA, CT and Inv and Defender for Linux-Arc VMs",
     "policyType": "Custom",
-    "description": "Enable Azure Monitor for the hybrid Linux virtual machines with AMA.",
+    "description": "Deploy and configure Azure Monitor Agent, Change Tracking and Inventory and Microsoft Defender for Endpoint on Linux Hybrid VMs.",
     "metadata": {
       "version": "1.0.0",
       "category": "Monitoring"
@@ -49,6 +49,28 @@
         "parameters": {
           "dcrResourceId": {
             "value": "[parameters('dcrResourceId')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "microsoftDefenderForEndpointLinuxArcAgentDeploy",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4eb909e7-6d64-656d-6465-2eeb297a1625",
+        "definitionVersion": "2.*.*-preview",
+        "effectiveDefinitionVersion": "2.0.1-preview",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "DeployChangeTrackingExtensionLinuxHybridVM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/10caed8a-652c-4d1d-84e4-2805b7c07278",
+        "definitionVersion": "2.*.*-preview",
+        "effectiveDefinitionVersion": "2.0.0-preview",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
           }
         }
       }

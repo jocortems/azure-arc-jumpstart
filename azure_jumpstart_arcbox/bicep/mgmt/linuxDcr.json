@@ -2,55 +2,55 @@
     "description": "Data collection rule for Linux Servers.",
     "dataSources": {
         "performanceCounters": [
-    {
-      "name": "LinuxPerformanceCounters",
-      "samplingFrequencyInSeconds": 60,
-      "streams": [
-        "Microsoft-Perf"
-      ],
-      "counterSpecifiers": [
-        "Processor:% Processor Time",
-        "Processor:% User Time",
-        "Processor:% Privileged Time",
-        "Processor:% IO Wait Time",
-        "Processor:% Idle Time",
-        "Processor:% DPC Time",
-        "System:Processes",
-        "System:Free Physical Memory",
-        "System:Free Virtual Memory",
-        "Memory:% Available Memory",
-        "Memory:% Used Memory",
-        "Memory:Available MBytes Memory",
-        "Memory:Used Memory MBytes",
-        "LogicalDisk:% Used Space",
-        "LogicalDisk:% Free Space",
-        "LogicalDisk:Disk Writes/sec",
-        "LogicalDisk:Disk Reads/sec",
-        "Network:Total Bytes Transmitted",
-        "Network:Total Bytes Received",
-        "Network:Total Bytes"
-      ]
-    }
-  ],
-  "syslog": [
-    {
-      "name": "Syslog",
-      "streams": [
-        "Microsoft-Syslog"
-      ],
-      "facilityNames": [
-        "auth",
-        "authpriv",
-        "audit",
-        "syslog",
-        "user"
-      ],
-      "logLevels": [
-        "Info",
-        "Error"
-      ]
-    }
-  ],
+            {
+                "name": "LinuxPerformanceCounters",
+                "samplingFrequencyInSeconds": 60,
+                "streams": [
+                    "Microsoft-Perf"
+                ],
+                "counterSpecifiers": [
+                    "Processor:% Processor Time",
+                    "Processor:% User Time",
+                    "Processor:% Privileged Time",
+                    "Processor:% IO Wait Time",
+                    "Processor:% Idle Time",
+                    "Processor:% DPC Time",
+                    "System:Processes",
+                    "System:Free Physical Memory",
+                    "System:Free Virtual Memory",
+                    "Memory:% Available Memory",
+                    "Memory:% Used Memory",
+                    "Memory:Available MBytes Memory",
+                    "Memory:Used Memory MBytes",
+                    "LogicalDisk:% Used Space",
+                    "LogicalDisk:% Free Space",
+                    "LogicalDisk:Disk Writes/sec",
+                    "LogicalDisk:Disk Reads/sec",
+                    "Network:Total Bytes Transmitted",
+                    "Network:Total Bytes Received",
+                    "Network:Total Bytes"
+                ]
+            }
+        ],
+        "syslog": [
+            {
+                "name": "Syslog",
+                "streams": [
+                    "Microsoft-Syslog"
+                ],
+                "facilityNames": [
+                    "auth",
+                    "authpriv",
+                    "audit",
+                    "syslog",
+                    "user"
+                ],
+                "logLevels": [
+                    "Info",
+                    "Error"
+                ]
+            }
+        ],
         "extensions": [
             {
                 "streams": [

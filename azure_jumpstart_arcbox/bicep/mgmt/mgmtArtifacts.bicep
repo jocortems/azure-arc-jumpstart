@@ -551,6 +551,9 @@ module hybridVmAmaPolicies './hybridAmaPolicies.bicep' = {
 }
 
 module policyDeployment './policyAzureArc.bicep' = {
+  dependsOn: [
+    monitoringSolutions
+  ]
   name: 'policyDeployment'
   params: {
     azureLocation: location
@@ -559,6 +562,7 @@ module policyDeployment './policyAzureArc.bicep' = {
     resourceTags: resourceTags
     amaWindowsHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaWindowsHybridVmsPolicyDefinitionId
     amaLinuxHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaLinuxHybridVmsPolicyDefinitionId
+    amaSqlHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaSqlHybridVmsPolicyDefinitionId
   }
 }
 
@@ -575,8 +579,13 @@ module keyVault 'br/public:avm/res/key-vault/vault:0.5.1' = {
   }
 }
 
-module arcSqlDashboards './arcSqlDashboards.bicep' = {
+module monitoringSolutions './monitoringSolutionsandDashboards.bicep' = {
   name: 'arcSqlDashboards'
+  params: {
+    logAnalyticsWorkspaceId: workspace.id
+    azureLocation: location
+    resourceTags: resourceTags
+  }
 }
 
 output vnetId string = arcVirtualNetwork.id

@@ -149,10 +149,6 @@ if ($Env:flavor -ne "DevOps") {
     Write-Header "Az PowerShell Login"
     Connect-AzAccount -Identity -Tenant $tenantId -Subscription $subscriptionId
 
-    # Enable defender for cloud for SQL Server
-    # Get workspace information
-    $workspaceResourceID = (az monitor log-analytics workspace show --resource-group $resourceGroup --workspace-name $Env:workspaceName --query "id" -o tsv)
-
     # Before deploying ArcBox SQL set resource group tag ArcSQLServerExtensionDeployment=Disabled to opt out of automatic SQL onboarding
     az tag create --resource-id "/subscriptions/$subscriptionId/resourceGroups/$resourceGroup" --tags ArcSQLServerExtensionDeployment=Disabled
 
@@ -239,7 +235,6 @@ if ($Env:flavor -ne "DevOps") {
         $ArcServer = Get-AzConnectedMachine -Name $SQLvmName -ResourceGroupName $resourceGroup
         if (($null -ne $ArcServer) -and ($ArcServer.ProvisioningState -eq "Succeeded")) {
             Write-Host "Onboarding the nested SQL VM as Azure Arc-enabled server successful."
-            $azConnectedMachineId = $ArcServer.Id
             break;
         }
         else {
@@ -281,21 +276,6 @@ if ($Env:flavor -ne "DevOps") {
             }
         }
     } while($retryCount -le 10)
-
-    # Test Defender for SQL
-    Write-Header "Simulating SQL threats to generate alerts from Defender for Cloud.`n"
-    $remoteScriptFileFile = "$Env:ArcBoxDir\testDefenderForSQL.ps1"
-    Copy-VMFile $SQLvmName -SourcePath "$Env:ArcBoxDir\SqlAdvancedThreatProtectionShell.psm1" -DestinationPath "$Env:ArcBoxDir\SqlAdvancedThreatProtectionShell.psm1" -CreateFullPath -FileSource Host -Force
-    Copy-VMFile $SQLvmName -SourcePath "$Env:ArcBoxDir\testDefenderForSQL.ps1" -DestinationPath $remoteScriptFileFile -CreateFullPath -FileSource Host -Force
-    Invoke-Command -VMName $SQLvmName -ScriptBlock { powershell -File $Using:remoteScriptFileFile } -Credential $winCreds
-
-    # Enable least privileged access
-    Write-Host "Enabling Arc-enabled SQL server least privileged access.`n"
-    az sql server-arc extension feature-flag set --name LeastPrivilege --enable true --resource-group $resourceGroup --machine-name $SQLvmName
-
-    # Enable automated backups
-    Write-Host "Enabling Arc-enabled SQL server automated backups.`n"
-    az sql server-arc backups-policy set --name $SQLvmName --resource-group $resourceGroup --retention-days 31 --full-backup-days 7 --diff-backup-hours 12 --tlog-backup-mins 5
 
     # Onboard nested Windows and Linux VMs to Azure Arc
     if ($Env:flavor -eq "ITPro") {

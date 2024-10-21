@@ -566,15 +566,6 @@ module policyDeployment './policyAzureArc.bicep' = {
     amaSqlHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaSqlHybridVmsPolicyDefinitionId
   }
 }
-
-module securityReaderRoleAssignment './securityReaderRoleAssignment.bicep' = {
-  scope: subscription()
-  name: 'securityReaderRoleAssignment'
-  params: {
-    policies_managed_identity: policyDeployment.outputs.policies_managed_identity
-  }
-}
-
 module keyVault 'br/public:avm/res/key-vault/vault:0.5.1' = {
   name: 'keyVaultDeployment'
   dependsOn: [

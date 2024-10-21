@@ -21,13 +21,11 @@ param amaLinuxHybridVmsPolicyDefinitionId string
 @description('Name (GUID) of the Hybrid SQL VMs AMA policy definition')
 param amaSqlHybridVmsPolicyDefinitionId string
 
-
-
-param azureUpdateManagerArcPolicyId string = '/providers/Microsoft.Authorization/policyDefinitions/bfea026e-043f-4ff4-9d1b-bf301ca7ff46'
-param azureUpdateManagerAzurePolicyId string = '/providers/Microsoft.Authorization/policyDefinitions/59efceea-0c96-497e-a4a1-4eb2290dac15'
 param sshPostureControlAzurePolicyId string = '/providers/Microsoft.Authorization/policyDefinitions/a8f3e6a6-dcd2-434c-b0f7-6f309ce913b4'
 param tagsRoleDefinitionId string = '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c'
 
+
+var arcboxClientVm = resourceId('Microsoft.Compute/virtualMachines', 'ArcBox-Client')
 var dataCollectionRulesConfig = [
   {
     name: 'Windows'
@@ -60,6 +58,9 @@ var policies = [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa' // Monitoring Contributor
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/39bc4728-0917-49c7-9d2c-d95423bc2eb4' // Security Reader
     ]
+    notScopes: [
+      arcboxClientVm
+    ]
     parameters: {
       dcrResourceId: {
         value: dataCollectionRules[0].id
@@ -82,6 +83,7 @@ var policies = [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa' // Monitoring Contributor
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/39bc4728-0917-49c7-9d2c-d95423bc2eb4' // Security Reader
     ]
+    notScopes: []
     parameters: {
       dcrResourceId: {
         value: dataCollectionRules[1].id
@@ -101,6 +103,7 @@ var policies = [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa' // Monitoring Contributor
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/39bc4728-0917-49c7-9d2c-d95423bc2eb4' // Security Reader
     ]
+    notScopes: []
     parameters: {
       workspaceRegion: {
         value: azureLocation
@@ -123,6 +126,7 @@ var policies = [
     roleDefinition: [
       '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293'
     ]
+    notScopes: []
     parameters: {}
   }
 ]
@@ -161,6 +165,7 @@ resource policies_name 'Microsoft.Authorization/policyAssignments@2021-06-01' = 
   properties: {
     policyDefinitionId: any(item.definitionId)
     parameters: item.parameters
+    notScopes: item.notScopes 
   }
 }]
 
@@ -191,82 +196,6 @@ resource policy_tagging_resources 'Microsoft.Authorization/roleAssignments@2020-
     principalType: 'ServicePrincipal'
   }
 }]
-
-resource updateManagerArcPolicyLinux 'Microsoft.Authorization/policyAssignments@2024-04-01' = {
-  name: '(ArcBox) Enable Azure Update Manager for Linux hybrid machines'
-  location: azureLocation
-  scope: resourceGroup()
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties:{
-    displayName: '(ArcBox) Enable Azure Update Manager for Arc-enabled Linux machines'
-    description: 'Enable Azure Update Manager for Arc-enabled machines'
-    policyDefinitionId: azureUpdateManagerArcPolicyId
-    parameters: {
-      osType: {
-        value: 'Linux'
-      }
-    }
-  }
-}
-
-resource updateManagerArcPolicyWindows 'Microsoft.Authorization/policyAssignments@2024-04-01' = {
-  name: '(ArcBox) Enable Azure Update Manager for Windows hybrid machines'
-  location: azureLocation
-  scope: resourceGroup()
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties:{
-    displayName: '(ArcBox) Enable Azure Update Manager for Arc-enabled Windows machines'
-    description: 'Enable Azure Update Manager for Arc-enabled machines'
-    policyDefinitionId: azureUpdateManagerArcPolicyId
-    parameters: {
-      osType: {
-        value: 'Windows'
-      }
-    }
-  }
-}
-
-resource updateManagerAzurePolicyWindows  'Microsoft.Authorization/policyAssignments@2024-04-01' = {
-  name: '(ArcBox) Enable Azure Update Manager for Azure Windows machines'
-  location: azureLocation
-  scope: resourceGroup()
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties:{
-    displayName: '(ArcBox) Enable Azure Update Manager for Azure Windows machines'
-    description: 'Enable Azure Update Manager for Azure machines'
-    policyDefinitionId: azureUpdateManagerAzurePolicyId
-    parameters: {
-      osType: {
-        value: 'Windows'
-      }
-    }
-  }
-}
-
-resource updateManagerAzurePolicyLinux  'Microsoft.Authorization/policyAssignments@2024-04-01' = {
-  name: '(ArcBox) Enable Azure Update Manager for Azure Linux machines'
-  location: azureLocation
-  scope: resourceGroup()
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties:{
-    displayName: '(ArcBox) Enable Azure Update Manager for Azure Linux machines'
-    description: 'Enable Azure Update Manager for Azure machines'
-    policyDefinitionId: azureUpdateManagerAzurePolicyId
-    parameters: {
-      osType: {
-        value: 'Linux'
-      }
-    }
-  }
-}
 
 resource sshPostureControlAudit  'Microsoft.Authorization/policyAssignments@2024-04-01' = {
   name: '(ArcBox) Enable SSH Posture Control audit'

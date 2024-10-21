@@ -27,6 +27,59 @@
           "description": "VMI Data Collection Rule Resource Id. Please refer to this link for newer experience migration: https://aka.ms/vminsights-dcrOnboarding",
           "portalReview": "true"
         }
+      },
+      "assessmentMode": {
+        "allowedValues": [
+          "ImageDefault",
+          "AutomaticByPlatform"
+        ],
+        "defaultValue": "AutomaticByPlatform",
+        "metadata": {
+          "description": "Assessment mode for the machines.",
+          "displayName": "Assessment mode"
+        },
+        "type": "String"
+      },
+      "locations": {
+        "defaultValue": [],
+        "metadata": {
+          "description": "The list of locations from which machines need to be targeted.",
+          "displayName": "Machines locations",
+          "strongType": "location"
+        },
+        "type": "Array"
+      },
+      "osType": {
+        "allowedValues": [
+          "Windows",
+          "Linux"
+        ],
+        "defaultValue": "Linux",
+        "metadata": {
+          "description": "OS type for the machines.",
+          "displayName": "OS type"
+        },
+        "type": "String"
+      },
+      "tagOperator": {
+        "allowedValues": [
+          "All",
+          "Any"
+        ],
+        "defaultValue": "Any",
+        "metadata": {
+          "description": "Matching condition for resource tags",
+          "displayName": "Tag operator"
+        },
+        "type": "String"
+      },
+      "tagValues": {
+        "defaultValue": {},
+        "metadata": {
+          "description": "The list of tags that need to matched for getting target machines.",
+          "displayName": "Tags on machines"
+        },
+        "type": "Object"
       }
     },
     "policyDefinitions": [      
@@ -71,6 +124,29 @@
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "UpdateManagerLinuxHybridVM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bfea026e-043f-4ff4-9d1b-bf301ca7ff46",
+        "definitionVersion": "2.*.*",
+        "effectiveDefinitionVersion": "2.3.0",
+        "parameters": {
+          "assessmentMode": {
+            "value": "[parameters('assessmentMode')]"
+          },
+          "locations": {
+            "value": "[parameters('locations')]"
+          },
+          "osType": {
+            "value": "[parameters('osType')]"
+          },
+          "tagOperator": {
+            "value": "[parameters('tagOperator')]"
+          },
+          "tagValues": {
+            "value": "[parameters('tagValues')]"
           }
         }
       }

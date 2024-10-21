@@ -8,7 +8,7 @@ param windowsAdminUsername = 'arcdemo'
 
 param windowsAdminPassword = 'R@d10H3@dP#03b3!'
 
-param logAnalyticsWorkspaceName = 'jcortesarcboxlaw7'
+param logAnalyticsWorkspaceName = 'jcortessyscoarcdemolaw'
 
 param flavor = 'ITPro'
 
@@ -18,7 +18,7 @@ param vmAutologon = true
 
 param customTags = {
   SecurityControl: 'Ignore'
-  Application: 'ArcDemo'
+  Application: 'Sysco-ArcDemo'
   'Data Center': 'Azure'
   'Business Unit': 'Retail' 
 

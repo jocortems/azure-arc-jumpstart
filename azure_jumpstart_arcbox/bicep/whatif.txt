@@ -1,0 +1,383 @@
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+
+Resource and property changes are indicated with these symbols:
+  - Delete
+  + Create
+  ~ Modify
+  = Nochange
+  x Noeffect
+
+The deployment will update the following scopes
+
+Scope: /subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324
+
+  ~ Microsoft.Authorization/policySetDefinitions/257f19a8-abb2-5a5b-921f-e714b8833207 [2023-04-01]
+    - properties.versions: [
+        0: "1.0.0"
+      ]
+    ~ properties.displayName: "(ArcBox) Deploy AMA, CT and Inv and Defender for Windows-Arc VMs" => "(ArcBox) Deploy Monitoring and Governance for Windows-Arc VMs"
+    ~ properties.policyDefinitions: [
+      ~ 0:
+
+        + effectiveDefinitionVersion: "2.4.0"
+
+      ~ 1:
+
+        + effectiveDefinitionVersion: "1.2.0"
+
+      ~ 2:
+
+        + effectiveDefinitionVersion: "4.5.1"
+
+      ~ 3:
+
+        + effectiveDefinitionVersion: "2.0.1-preview"
+
+      ~ 4:
+
+        + effectiveDefinitionVersion: "2.0.0-preview"
+
+      ]
+
+  ~ Microsoft.Authorization/policySetDefinitions/804234fa-8686-5d20-b5e4-4a61fbfd1e84 [2023-04-01]
+    - properties.versions: [
+        0: "1.0.0"
+      ]
+    ~ properties.displayName: "(ArcBox) Deploy AMA, CT and Inv and Defender for Linux-Arc VMs" => "(ArcBox) Deploy Monitoring and Governance for Linux-Arc VMs"
+    ~ properties.policyDefinitions: [
+      ~ 0:
+
+        + effectiveDefinitionVersion: "2.4.0"
+
+      ~ 1:
+
+        + effectiveDefinitionVersion: "6.5.1"
+
+      ~ 2:
+
+        + effectiveDefinitionVersion: "2.0.1-preview"
+
+      ~ 3:
+
+        + effectiveDefinitionVersion: "2.0.0-preview"
+
+      ]
+
+  ~ Microsoft.Authorization/policySetDefinitions/e8ce0919-5f3d-5490-a69c-912001c9bd7e [2023-04-01]
+    - properties.versions: [
+        0: "1.0.0"
+      ]
+    ~ properties.policyDefinitions: [
+      ~ 0:
+
+        + effectiveDefinitionVersion: "1.3.0"
+
+      ~ 1:
+
+        + effectiveDefinitionVersion: "1.2.0"
+
+      ~ 2:
+
+        + effectiveDefinitionVersion: "1.0.0"
+
+      ~ 3:
+
+        + effectiveDefinitionVersion: "1.3.0"
+
+      ]
+
+Scope: /subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7
+
+  + Microsoft.Authorization/policyAssignments/(ArcBox) Deploy Monitoring and Governance for Linux-Arc VMs [2021-06-01]
+
+      apiVersion:                                                                                                                                                                                         "2021-06-01"
+      id:                                                                                                                                                                                                 "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.Authorization/policyAssignments/(ArcBox) Deploy Monitoring and Governance for Linux-Arc VMs"
+      identity.type:                                                                                                                                                                                      "UserAssigned"
+      identity.userAssignedIdentities./subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.ManagedIdentity/userAssignedIdentities/arcbox-policies-identity: {}
+      location:                                                                                                                                                                                           "francecentral"
+      name:                                                                                                                                                                                               "(ArcBox) Deploy Monitoring and Governance for Linux-Arc VMs"
+      properties.parameters.dcrResourceId.value:                                                                                                                                                          "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.Insights/dataCollectionRules/Linux"
+      properties.policyDefinitionId:                                                                                                                                                                      "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/providers/Microsoft.Authorization/policySetDefinitions/804234fa-8686-5d20-b5e4-4a61fbfd1e84"
+      type:                                                                                                                                                                                               "Microsoft.Authorization/policyAssignments"
+
+  + Microsoft.Authorization/policyAssignments/(ArcBox) Deploy Monitoring and Governance for Windows-Arc VMs [2021-06-01]
+
+      apiVersion:                                                                                                                                                                                         "2021-06-01"
+      id:                                                                                                                                                                                                 "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.Authorization/policyAssignments/(ArcBox) Deploy Monitoring and Governance for Windows-Arc VMs"
+      identity.type:                                                                                                                                                                                      "UserAssigned"
+      identity.userAssignedIdentities./subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.ManagedIdentity/userAssignedIdentities/arcbox-policies-identity: {}
+      location:                                                                                                                                                                                           "francecentral"
+      name:                                                                                                                                                                                               "(ArcBox) Deploy Monitoring and Governance for Windows-Arc VMs"
+      properties.parameters.dcrResourceId.value:                                                                                                                                                          "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.Insights/dataCollectionRules/Windows"
+      properties.parameters.enableProcessesAndDependencies.value:                                                                                                                                         true
+      properties.policyDefinitionId:                                                                                                                                                                      "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/providers/Microsoft.Authorization/policySetDefinitions/257f19a8-abb2-5a5b-921f-e714b8833207"
+      type:                                                                                                                                                                                               "Microsoft.Authorization/policyAssignments"
+
+  + Microsoft.KeyVault/vaults/arcboxhxr2loqbnj6am [2022-07-01]
+
+      apiVersion:                              "2022-07-01"
+      id:                                      "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.KeyVault/vaults/arcboxhxr2loqbnj6am"
+      location:                                "francecentral"
+      name:                                    "arcboxhxr2loqbnj6am"
+      properties.createMode:                   "default"
+      properties.enabledForDeployment:         true
+      properties.enabledForDiskEncryption:     true
+      properties.enabledForTemplateDeployment: true
+      properties.enableRbacAuthorization:      true
+      properties.enableSoftDelete:             false
+      properties.sku.family:                   "A"
+      properties.sku.name:                     "premium"
+      properties.softDeleteRetentionInDays:    90
+      properties.tenantId:                     "dd960d1c-84f6-4f2c-b8c1-fe3608e751bc"
+      tags.Application:                        "ArcDemo"
+      tags.Business Unit:                      "Retail"
+      tags.Data Center:                        "Azure"
+      tags.Location:                           "francecentral"
+      tags.SecurityControl:                    "Ignore"
+      type:                                    "Microsoft.KeyVault/vaults"
+
+  + Microsoft.Network/networkSecurityGroups/ArcBox-NSG [2022-01-01]
+
+      apiVersion:           "2022-01-01"
+      id:                   "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.Network/networkSecurityGroups/ArcBox-NSG"
+      location:             "francecentral"
+      name:                 "ArcBox-NSG"
+      properties.securityRules: [
+        0:
+
+          name:                                "allow_k8s_443"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "443"
+          properties.direction:                "Inbound"
+          properties.priority:                 1005
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        1:
+
+          name:                                "allow_k8s_80"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "80"
+          properties.direction:                "Inbound"
+          properties.priority:                 1003
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        2:
+
+          name:                                "allow_k8s_8080"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "8080"
+          properties.direction:                "Inbound"
+          properties.priority:                 1004
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        3:
+
+          name:                                "allow_k8s_kubelet"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "10250"
+          properties.direction:                "Inbound"
+          properties.priority:                 1006
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        4:
+
+          name:                                "allow_Postgresql_traffic"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "15432"
+          properties.direction:                "Inbound"
+          properties.priority:                 1009
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        5:
+
+          name:                                "allow_SQLMI_mirroring_traffic"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "5022"
+          properties.direction:                "Inbound"
+          properties.priority:                 1012
+          properties.protocol:                 "TCP"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        6:
+
+          name:                                "allow_SQLMI_traffic"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "11433"
+          properties.direction:                "Inbound"
+          properties.priority:                 1008
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        7:
+
+          name:                                "allow_traefik_lb_external"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "32323"
+          properties.direction:                "Inbound"
+          properties.priority:                 1007
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        8:
+
+          name:                                "Allow-RDP"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "3389"
+          properties.direction:                "Inbound"
+          properties.priority:                 100
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "23.127.79.184"
+          properties.sourcePortRange:          "*"
+
+      ]
+      tags.Application:     "ArcDemo"
+      tags.Business Unit:   "Retail"
+      tags.Data Center:     "Azure"
+      tags.Location:        "francecentral"
+      tags.SecurityControl: "Ignore"
+      type:                 "Microsoft.Network/networkSecurityGroups"
+
+  + Microsoft.Network/virtualNetworks/ArcBox-VNet [2022-01-01]
+
+      apiVersion:               "2022-01-01"
+      id:                       "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.Network/virtualNetworks/ArcBox-VNet"
+      location:                 "francecentral"
+      name:                     "ArcBox-VNet"
+      properties.addressSpace.addressPrefixes: [
+        0: "10.16.0.0/16"
+      ]
+      properties.subnets: [
+        0:
+
+          name:                                         "ArcBox-Subnet"
+          properties.addressPrefix:                     "10.16.1.0/24"
+          properties.networkSecurityGroup.id:           "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.Network/networkSecurityGroups/ArcBox-NSG"
+          properties.privateEndpointNetworkPolicies:    "Enabled"
+          properties.privateLinkServiceNetworkPolicies: "Enabled"
+
+      ]
+      tags.Application:         "ArcDemo"
+      tags.Business Unit:       "Retail"
+      tags.Data Center:         "Azure"
+      tags.Location:            "francecentral"
+      tags.SecurityControl:     "Ignore"
+      type:                     "Microsoft.Network/virtualNetworks"
+
+  ~ Microsoft.Authorization/policyAssignments/(ArcBox) Enable Azure Update Manager for Azure Linux machines [2024-04-01]
+    - properties.definitionVersion: "4.*.*"
+
+  ~ Microsoft.Authorization/policyAssignments/(ArcBox) Enable Azure Update Manager for Azure Windows machines [2024-04-01]
+    - properties.definitionVersion: "4.*.*"
+
+  ~ Microsoft.Authorization/policyAssignments/(ArcBox) Enable Azure Update Manager for Linux hybrid machines [2024-04-01]
+    - properties.definitionVersion: "2.*.*"
+
+  ~ Microsoft.Authorization/policyAssignments/(ArcBox) Enable Azure Update Manager for Windows hybrid machines [2024-04-01]
+    - properties.definitionVersion: "2.*.*"
+
+  ~ Microsoft.Authorization/policyAssignments/(ArcBox) Enable SSH Posture Control audit [2024-04-01]
+    - properties.definitionVersion: "1.*.*"
+
+  ~ Microsoft.Authorization/roleAssignments/3a93dbd4-b8d1-5edd-aef6-0a5792ab9ff7 [2020-10-01-preview]
+    ~ properties.principalId:   "68a8b5d3-0ddc-4d82-babc-8549daf5ca48" => "[reference(resourceId('Microsoft.Authorization/policyAssignments', format('(ArcBox) Tag resources-{0}', items(parameters('resourceTags'))[copyIndex()].key)), '2021-06-01', 'full').identity.principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.Authorization/roleAssignments/54571574-667b-578c-84e9-1d34e8560972 [2020-10-01-preview]
+    ~ properties.principalId:   "f83ba786-1a7f-4ffe-87ac-72ef879227bb" => "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'arcbox-policies-identity'), '2018-11-30').principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.Authorization/roleAssignments/57fa3e10-68c4-562c-8507-8e044ae3c99f [2020-10-01-preview]
+    ~ properties.principalId:   "f83ba786-1a7f-4ffe-87ac-72ef879227bb" => "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'arcbox-policies-identity'), '2018-11-30').principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.Authorization/roleAssignments/6e426394-5faa-53be-b3f0-985eb12d811d [2020-10-01-preview]
+    ~ properties.principalId:   "8b365c9f-4367-4273-9fb2-01c6838c51c9" => "[reference(resourceId('Microsoft.Authorization/policyAssignments', format('(ArcBox) Tag resources-{0}', items(parameters('resourceTags'))[copyIndex()].key)), '2021-06-01', 'full').identity.principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.Authorization/roleAssignments/9f4a9921-dd14-5b07-94e6-6cf9bd6def75 [2020-10-01-preview]
+    ~ properties.principalId:   "f83ba786-1a7f-4ffe-87ac-72ef879227bb" => "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'arcbox-policies-identity'), '2018-11-30').principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.Authorization/roleAssignments/9f4b4f6b-6a58-5d2e-990b-e89a917a3bc9 [2020-10-01-preview]
+    ~ properties.principalId:   "f83ba786-1a7f-4ffe-87ac-72ef879227bb" => "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'arcbox-policies-identity'), '2018-11-30').principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.Authorization/roleAssignments/ad59a365-f40e-52bb-8d7f-e6875f195097 [2020-10-01-preview]
+    ~ properties.principalId:   "6243bfd1-2ec3-4da9-9b3e-25e62da6ffdc" => "[reference(resourceId('Microsoft.Authorization/policyAssignments', format('(ArcBox) Tag resources-{0}', items(parameters('resourceTags'))[copyIndex()].key)), '2021-06-01', 'full').identity.principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.Authorization/roleAssignments/ba0deae5-bcab-5774-9309-63b87b05d9b8 [2020-10-01-preview]
+    ~ properties.principalId:   "4acd1842-2ffe-4231-b40f-a57e6be59c84" => "[reference(resourceId('Microsoft.Authorization/policyAssignments', format('(ArcBox) Tag resources-{0}', items(parameters('resourceTags'))[copyIndex()].key)), '2021-06-01', 'full').identity.principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.Authorization/roleAssignments/c22d747e-7ab7-50cc-8f3c-a3a93851dfc0 [2020-10-01-preview]
+    ~ properties.principalId:   "6e3db501-dfda-4b89-9bcc-bb5779c93bac" => "[reference(resourceId('Microsoft.Authorization/policyAssignments', format('(ArcBox) Tag resources-{0}', items(parameters('resourceTags'))[copyIndex()].key)), '2021-06-01', 'full').identity.principalId]"
+    x properties.principalType: "ServicePrincipal"
+
+  ~ Microsoft.OperationalInsights/workspaces/jcortesarcboxlaw7 [2021-06-01]
+    - properties.retentionInDays: 30
+
+  ~ Microsoft.OperationsManagement/solutions/ChangeTracking(jcortesarcboxlaw7) [2015-11-01-preview]
+    - properties.containedResources: [
+        0: "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.OperationalInsights/workspaces/jcortesarcboxlaw7/views/ChangeTracking(jcortesarcboxlaw7)"
+      ]
+    - properties.creationTime: "Sun, 20 Oct 2024 21:38:17 GMT"
+
+  ~ Microsoft.OperationsManagement/solutions/SQLAdvancedThreatProtection(jcortesarcboxlaw7) [2015-11-01-preview]
+    - properties.creationTime: "Sun, 20 Oct 2024 21:38:17 GMT"
+
+  ~ Microsoft.OperationsManagement/solutions/SQLVulnerabilityAssessment(jcortesarcboxlaw7) [2015-11-01-preview]
+    - properties.containedResources: [
+        0: "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.OperationalInsights/workspaces/jcortesarcboxlaw7/views/SQLVulnerabilityAssessment(jcortesarcboxlaw7)"
+      ]
+    - properties.creationTime: "Sun, 20 Oct 2024 21:38:17 GMT"
+
+  ~ Microsoft.OperationsManagement/solutions/Security(jcortesarcboxlaw7) [2015-11-01-preview]
+    - properties.containedResources: [
+        0: "/subscriptions/a25c1b37-b1cc-4063-b3ea-472cfa9a7324/resourceGroups/arcboxtest7/providers/Microsoft.OperationalInsights/workspaces/jcortesarcboxlaw7/views/Security(jcortesarcboxlaw7)"
+      ]
+    - properties.creationTime: "Sun, 20 Oct 2024 21:38:14 GMT"
+
+  = Microsoft.Authorization/policyAssignments/(ArcBox) Deploy Microsoft Defender for Arc-Enabled SQL Servers [2021-06-01]
+  = Microsoft.Authorization/policyAssignments/(ArcBox) Tag resources-Application [2021-06-01]
+  = Microsoft.Authorization/policyAssignments/(ArcBox) Tag resources-Business Unit [2021-06-01]
+  = Microsoft.Authorization/policyAssignments/(ArcBox) Tag resources-Data Center [2021-06-01]
+  = Microsoft.Authorization/policyAssignments/(ArcBox) Tag resources-Location [2021-06-01]
+  = Microsoft.Authorization/policyAssignments/(ArcBox) Tag resources-SecurityControl [2021-06-01]
+  = Microsoft.Insights/dataCollectionRules/Linux [2023-03-11]
+  = Microsoft.Insights/dataCollectionRules/SQL [2023-03-11]
+  = Microsoft.Insights/dataCollectionRules/Windows [2023-03-11]
+  = Microsoft.ManagedIdentity/userAssignedIdentities/arcbox-policies-identity [2018-11-30]
+  = Microsoft.Portal/dashboards/Arc-DeploymentProgress [2022-12-01-preview]
+  = Microsoft.Portal/dashboards/Arc-ESU [2022-12-01-preview]
+  = Microsoft.Portal/dashboards/Arc-EstateProfile [2022-12-01-preview]
+  = Microsoft.Portal/dashboards/Arc-SQLServerInventory [2022-12-01-preview]
+  = Microsoft.Portal/dashboards/Arc-ServerDeployment [2022-12-01-preview]
+  = Microsoft.Portal/dashboards/SQLServerEstateHealth [2022-12-01-preview]
+  = Microsoft.Portal/dashboards/SQLServerInstances [2022-12-01-preview]
+  = Microsoft.Storage/storageAccounts/arcboxhxr2loqbnj6am [2022-05-01]
+
+Resource changes: 5 to create, 22 to modify, 18 no change.

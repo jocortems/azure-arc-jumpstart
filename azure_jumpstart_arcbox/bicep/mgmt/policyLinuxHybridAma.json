@@ -1,5 +1,5 @@
 {
-    "displayName": "(ArcBox) Deploy AMA, CT and Inv and Defender for Linux-Arc VMs",
+    "displayName": "(ArcBox) Deploy Monitoring and Governance for Linux-Arc VMs",
     "policyType": "Custom",
     "description": "Deploy and configure Azure Monitor Agent, Change Tracking and Inventory and Microsoft Defender for Endpoint on Linux Hybrid VMs.",
     "metadata": {

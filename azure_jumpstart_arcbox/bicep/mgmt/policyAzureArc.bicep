@@ -48,7 +48,7 @@ var dataCollectionRulesConfig = [
 
 var policies = [
   {
-    name: '(ArcBox) Enable AMA, CT-I and Defender for Windows-Arc VMs'
+    name: '(ArcBox) Deploy Monitoring and Governance for Windows-Arc VMs'
     definitionId: amaWindowsHybridVmsPolicyDefinitionId
     flavors: [
       'Full'
@@ -70,7 +70,7 @@ var policies = [
     }
   }
   {
-    name: '(ArcBox) Enable AMA, CT-I and Defender for Linux-Arc VMs'
+    name: '(ArcBox) Deploy Monitoring and Governance for Linux-Arc VMs'
     definitionId: amaLinuxHybridVmsPolicyDefinitionId
     flavors: [
       'Full'
@@ -128,7 +128,9 @@ var policies = [
 ]
 
 var roleDefintion = [for roledef in policies: roledef.roleDefinition]
-var uniqueRoleDefintion = union([...roleDefintion], [])
+var uniqueRoleDefintion = union(flatten([roleDefintion]), [])
+var rd = union(flatten(uniqueRoleDefintion), [])
+
 
 resource userIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   name: 'arcbox-policies-identity'
@@ -136,11 +138,11 @@ resource userIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-
   location: azureLocation
 }
 
-resource arcboxIdentityRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = [for role in uniqueRoleDefintion: {
-  name: guid('arcbox-policies-identity', role,subscription().subscriptionId)
+resource arcboxIdentityRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = [for (role, i) in rd: {
+  name: guid('arcbox-policies-identity', '${rd[i]}', subscription().subscriptionId)
   properties: {
     description: 'All Policy Assignments Created as part of this deployment will use the same Managed Identity'
-    roleDefinitionId: role
+    roleDefinitionId: '${rd[i]}'
     principalId: userIdentity.properties.principalId
     principalType: 'ServicePrincipal'
   }
@@ -299,3 +301,6 @@ resource dataCollectionRules 'Microsoft.Insights/dataCollectionRules@2023-03-11'
     dataFlows: os.dataFlows
   }
 }]
+
+
+output policies_managed_identity string = userIdentity.properties.principalId

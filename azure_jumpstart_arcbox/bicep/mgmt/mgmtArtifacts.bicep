@@ -553,6 +553,7 @@ module hybridVmAmaPolicies './hybridAmaPolicies.bicep' = {
 module policyDeployment './policyAzureArc.bicep' = {
   dependsOn: [
     monitoringSolutions
+    hybridVmAmaPolicies
   ]
   name: 'policyDeployment'
   params: {
@@ -563,6 +564,14 @@ module policyDeployment './policyAzureArc.bicep' = {
     amaWindowsHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaWindowsHybridVmsPolicyDefinitionId
     amaLinuxHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaLinuxHybridVmsPolicyDefinitionId
     amaSqlHybridVmsPolicyDefinitionId: hybridVmAmaPolicies.outputs.amaSqlHybridVmsPolicyDefinitionId
+  }
+}
+
+module securityReaderRoleAssignment './securityReaderRoleAssignment.bicep' = {
+  scope: subscription()
+  name: 'securityReaderRoleAssignment'
+  params: {
+    policies_managed_identity: policyDeployment.outputs.policies_managed_identity
   }
 }
 

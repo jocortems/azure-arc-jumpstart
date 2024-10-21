@@ -1,5 +1,5 @@
 {
-    "displayName": "(ArcBox) Deploy AMA, CT and Inv and Defender for Windows-Arc VMs",
+    "displayName": "(ArcBox) Deploy Monitoring and Governance for Windows-Arc VMs",
     "policyType": "Custom",
     "description": "Deploy and configure Azure Monitor Agent, Dependency Agent, Change Tracking and Inventory and Microsoft Defender for Endpoint on Windows Hybrid VMs.",
     "metadata": {
